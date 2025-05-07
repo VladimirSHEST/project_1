@@ -1,123 +1,90 @@
 package task1.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormPage {
 
-    public SelenideElement firstNameInput = $x("//input[@id='firstName']");
-    public SelenideElement lastNameInput = $x("//input[@id='lastName']");
-    public SelenideElement emailInput = $x("//input[@id='userEmail']");
-    public SelenideElement genderRadioMale = $x("//label[text()='Male']");
-    public SelenideElement mobileInput = $x("//input[@id='userNumber']");
+    public SelenideElement firstNameInput() {
+        return $x("//input[@id='firstName']").as("Поле ввода имени");
+    }
+
+    public SelenideElement lastNameInput(){
+        return $x("//input[@id='lastName']").as("Поле ввода фамилии");
+    }
+
+    public SelenideElement emailInput(){
+        return $x("//input[@id='userEmail']").as("Поле ввода е-мейла");
+    }
+
+    public SelenideElement genderRadioMale(){
+        return $x("//label[.='Other']").as("кнопка выбора пола");
+    }
+
+    public SelenideElement mobileInput(){
+        return $x("//input[@id='userNumber']").as("Поле ввода номера телефона");
+    }
+
     // выбор дня рождения
-    public SelenideElement dateOfBirthInput = $x("//input[@id='dateOfBirthInput']");
-    public SelenideElement dateYear = $x("//select[@class='react-datepicker__year-select']");
-    public SelenideElement dateYearValue = $x("//option[@value='1989']");
-    public SelenideElement dateMonth = $x("//select[@class='react-datepicker__month-select']");
-    public SelenideElement dateMonthValue = $x("//option[@value='5']");
-    public SelenideElement dateDay = $x("//div[@class='react-datepicker__day react-datepicker__day--019']");
-    // поле предметы Subjects
-    public SelenideElement subjectsInput = $x("//input[@id='subjectsInput']");
+    public SelenideElement dateOfBirthInput(){
+        return $x("//input[@id='dateOfBirthInput']").as("Поле ввода дата рождения");
+    }
+    public SelenideElement dateYear(){
+        return $x("//select[@class='react-datepicker__year-select']").as("Дроп списка для выбора года");
+    }
+    public SelenideElement dateYearValue(){
+        return $x("//option[@value='1989']").as("Выбор года рождения");
+    }
+    public SelenideElement dateMonth(){
+        return $x("//select[@class='react-datepicker__month-select']").as("Дроп списка для выбора месяца");
+    }
+    public SelenideElement dateMonthValue(){
+        return $x("//option[@value='5']").as("Выбор месяца рождения");
+    }
+    public SelenideElement dateDay(){
+        return $x("//div[@class='react-datepicker__day react-datepicker__day--019']")
+                .as("Выбор числа рождения");
+    }
+
+   // поле предметы Subjects
+    public SelenideElement subjectsInput(){
+        return $x("//input[@id='subjectsInput']").as("Поле для ввода предмета");
+    }
+
     // поле Hobbies
-    public SelenideElement hobbiesCheckbox = $x("//label[text()='Sports']");
+    public SelenideElement hobbiesCheckbox(){
+        return $x("//label[text()='Sports']").as("Выбор хобби");
+    }
     // поле для загрузки фото
-    public SelenideElement uploadPicture = $x("//input[@id='uploadPicture']");
+    public SelenideElement uploadPicture(){
+        return $x("//input[@id='uploadPicture']").as("Кнопка для загрузки фото");
+    }
+
     // поле выбора адреса
-    public SelenideElement addressInput = $x("//textarea[@id='currentAddress']");
+    public SelenideElement addressInput(){
+        return $x("//textarea[@id='currentAddress']").as("Поле ввода адреса");
+    }
+
     // штат и город
-    public SelenideElement stateDropdown = $x("//div[@class=' css-tlfecz-indicatorContainer']");
-    public SelenideElement stateDropdown2 = $x("//div[@id='react-select-3-option-2']");
-    public SelenideElement cityDropdown = $x("//div[text()='Select City']");
-    public SelenideElement cityDropdown2 = $x("//div[text()='Select City']");
+    public SelenideElement stateDropdown(){
+        return $x("//div[@class=' css-1hwfws3']").as("Кнопка для выпадения штата");
+    }
+    public SelenideElement stateDropdown2(){
+        return $x("//div[@id='react-select-3-option-2']").as("Выбор штата");
+    }
+    public SelenideElement cityDropdown(){
+        return $x("//div[@id='city']").as("Кнопка для выпадения города");
+    }
+    public SelenideElement cityDropdown2(){
+        return $x("//div[text()='Karnal']").as("Выбор города");
+    }
+
     // кнопка подтвердить
-    public SelenideElement submitButton = $x("//button[@id='submit']");
+    public SelenideElement submitButton(){
+        return $x("//button[@id='submit']").as("Кнопка подтвердить");
+    }
     // заполненная форма
-    public SelenideElement submittingTheForm = $x("//div[@class='modal-header']");
-
-    // Методы взаимодействия
-    public PracticeFormPage openPage() {
-        open("https://demoqa.com/automation-practice-form");
-        $x("//div[@class='practice-form-wrapper']").shouldHave(text("Practice Form"));
-        return this;
-    }
-
-    public PracticeFormPage setFirstName(String name) {
-        firstNameInput.setValue(name);
-        return this;
-    }
-
-    public PracticeFormPage setLastName(String lastName) {
-        lastNameInput.setValue(lastName);
-        return this;
-    }
-
-    public PracticeFormPage setEmail(String email) {
-        emailInput.setValue(email);
-        return this;
-    }
-
-    public PracticeFormPage setGender() {
-        genderRadioMale.click();
-        return this;
-    }
-
-    public PracticeFormPage setMobile(String number) {
-        mobileInput.setValue(number);
-        return this;
-    }
-
-    public PracticeFormPage setBirth() {
-        dateOfBirthInput.click();
-        dateYear.click();
-        dateYearValue.click();
-        dateMonth.click();
-        dateMonthValue.click();
-        dateDay.click();
-        return this;
-    }
-
-    public PracticeFormPage setSubject(String subject) {
-        subjectsInput.setValue(subject).pressEnter();
-        return this;
-    }
-
-    public PracticeFormPage setHobby() {
-        hobbiesCheckbox.click();
-        return this;
-    }
-
-    public PracticeFormPage setPicture() {
-        uploadPicture.uploadFromClasspath("img/аватарка.jpg");
-        return this;
-    }
-
-    public PracticeFormPage setAddress(String address) {
-        addressInput.setValue(address);
-
-        return this;
-    }
-
-    public PracticeFormPage setState() {
-        stateDropdown.click();
-        stateDropdown2.click();
-        return this;
-    }
-
-    public PracticeFormPage setCity() {
-        cityDropdown.click();
-        cityDropdown2.click();
-        return this;
-    }
-
-    public PracticeFormPage submitForm() {
-        submitButton.click();
-        return this;
-
-
-    }public PracticeFormPage submittingForm() {
-        submittingTheForm.shouldHave(text("Thanks for submitting the form"));
-        return this;
+    public SelenideElement submittingTheForm(){
+        return $x("//div[@class='modal-header']").as("Заполненная форма");
     }
 }
