@@ -6,4 +6,6 @@ public final class PageRepository {
 
     public static PracticeFormPage practiceFormPage = new PracticeFormPage();
 
+    private PageRepository() {}
+
 }

@@ -1,9 +1,15 @@
 package task1.pages;
 
 import com.codeborne.selenide.SelenideElement;
+
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class PracticeFormPage {
+public class PracticeFormPage extends BasePage {
+
+    public static String url() {
+        return BasePage.url() + "automation-practice-form";
+    }
 
     public SelenideElement firstNameInput() {
         return $x("//input[@id='firstName']").as("Поле ввода имени");
@@ -18,7 +24,7 @@ public class PracticeFormPage {
     }
 
     public SelenideElement genderRadioMale(){
-        return $x("//label[.='Other']").as("кнопка выбора пола");
+        return $("#genterWrapper").$(byText("Male")).as("кнопка выбора пола");//
     }
 
     public SelenideElement mobileInput(){
@@ -53,7 +59,7 @@ public class PracticeFormPage {
 
     // поле Hobbies
     public SelenideElement hobbiesCheckbox(){
-        return $x("//label[text()='Sports']").as("Выбор хобби");
+        return $("#hobbiesWrapper").$(byText("Sports")).as("Выбор хобби");
     }
     // поле для загрузки фото
     public SelenideElement uploadPicture(){
@@ -67,16 +73,16 @@ public class PracticeFormPage {
 
     // штат и город
     public SelenideElement stateDropdown(){
-        return $x("//div[@class=' css-1hwfws3']").as("Кнопка для выпадения штата");
+        return $("#state").as("Кнопка для выпадения штата");
     }
     public SelenideElement stateDropdown2(){
-        return $x("//div[@id='react-select-3-option-2']").as("Выбор штата");
+        return $("#stateCity-wrapper").$(byText("NCR")).as("Выбор штата");
     }
     public SelenideElement cityDropdown(){
         return $x("//div[@id='city']").as("Кнопка для выпадения города");
     }
     public SelenideElement cityDropdown2(){
-        return $x("//div[text()='Karnal']").as("Выбор города");
+        return $("#stateCity-wrapper").$(byText("Delhi")).as("Выбор города");
     }
 
     // кнопка подтвердить

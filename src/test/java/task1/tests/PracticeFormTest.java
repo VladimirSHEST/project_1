@@ -1,9 +1,11 @@
 package task1.tests;
 
-
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.time.Duration;
-import static com.codeborne.selenide.Condition.visible;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import task1.pages.PracticeFormPage;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 import static task1.repository.PageRepository.practiceFormPage;
@@ -11,86 +13,113 @@ import static task1.repository.PageRepository.practiceFormPage;
 public class PracticeFormTest extends BaseTest {
 
     @Test
+    @DisplayName("Заполнение формы валидными данными")
     public void fillFormPositive() {
-        open("automation-practice-form");
 
-        step("Ввод имени в поле", () -> {
-            practiceFormPage.firstNameInput().setValue("Jon").pressEnter();
+        step("Открытие страницы Practice Form", () -> {
+            open(PracticeFormPage.url());
         });
-        step("Ввод фамилии в поле", () -> {
-            practiceFormPage.lastNameInput().setValue("Smith").pressEnter();
-        });
-        step("Поле ввода е-мейла", () -> {
-            practiceFormPage.emailInput().setValue("test@test.com").pressEnter();
-        });
-        step("кнопка выбора пола", () -> {
+
+        step("Заполнение формы", () -> {
+            practiceFormPage.firstNameInput().setValue("Jon");
+            practiceFormPage.lastNameInput().setValue("Smith");
+            practiceFormPage.emailInput().setValue("test@mail.com");
             practiceFormPage.genderRadioMale().click();
-        });
-        step("Поле ввода номера телефона", () -> {
+            practiceFormPage.genderRadioMale().click();
             practiceFormPage.mobileInput().setValue("1234567890");
-        });
-        // выбор дня рождения
-        step("Поле ввода дата рождения", () -> {
-            practiceFormPage.dateOfBirthInput()
-                    .shouldBe(visible, Duration.ofSeconds(10)) // явно указываем 10 секунд ожидания
-                    .click();
-        });
-
-        step("Дроп списка для выбора года", () -> {
+            practiceFormPage.dateOfBirthInput().click();
             practiceFormPage.dateYear().click();
-        });
-        step("Выбор года рождения", () -> {
             practiceFormPage.dateYearValue().click();
-        });
-        step("Дроп списка для выбора месяца", () -> {
             practiceFormPage.dateMonth().click();
-        });
-        step("Выбор месяца рождения", () -> {
             practiceFormPage.dateMonthValue().click();
-        });
-        step("Выбор числа рождения", () -> {
+            practiceFormPage.dateMonthValue().click();
             practiceFormPage.dateDay().click();
-        });
-
-          // поле предметы Subjects
-        step("Выбор хобби", () -> {
             practiceFormPage.subjectsInput().setValue("Maths").pressEnter();
-        });
-        // поле Hobbies
-        step("Ввод предмета", () -> {
-            practiceFormPage.hobbiesCheckbox()
-                    .click();
-        });
-
-        // поле для загрузки фото
-        step("Кнопка для загрузки фото", () -> {
+            practiceFormPage.hobbiesCheckbox().click();
             practiceFormPage.uploadPicture().uploadFromClasspath("img/аватарка.jpg");
-        });
-        // поле выбора адреса
-        step("Поле ввода адреса", () -> {
             practiceFormPage.addressInput().setValue("Адрес");
-        });
-        // штат и город
-        step("Кнопка для выпадения штата", () -> {
-            practiceFormPage.stateDropdown()
-                    .scrollIntoView("{block: 'center'}") // Прокрутить к центру экрана
-                    .click();
-        });
-        step("Выбор штата", () -> {
+            practiceFormPage.stateDropdown().scrollIntoView("{block: 'center'}").click();
             practiceFormPage.stateDropdown2().click();
-        });
-        step("Кнопка для выпадения города", () -> {
             practiceFormPage.cityDropdown().click();
-        });
-        step("Выбор города", () -> {
             practiceFormPage.cityDropdown2().click();
         });
+
         step("Кнопка подтвердить", () -> {
             practiceFormPage.submitButton().click();
         });
-        step("Заполненная форма", () -> {
+
+        step("Появление заполненной формы", () -> {
             practiceFormPage.submittingTheForm().click();
         });
+    }
 
+    @ParameterizedTest(name = "Невалидный номер: {0}")
+    @ValueSource(strings = {
+            "123456789",  // 9 цифр
+            "",           // пусто
+            "abcde",      // буквы
+            "123-456-78", // символы
+            "123 456 7890" // пробелы
+    })
+
+    @DisplayName("Заполнение формы невалидными данными")
+    public void testInvalidMobileNumbers(String phoneNumber) {
+
+        step("Открытие страницы Practice Form", () -> {
+            open(PracticeFormPage.url());
+        });
+
+        step("Заполняем обязательные поля валидными значениями", () -> {
+            practiceFormPage.firstNameInput().setValue("Jon");
+            practiceFormPage.lastNameInput().setValue("Smith");
+            practiceFormPage.genderRadioMale().click();
+        });
+
+        step("Ввод невалидного номера телефона", () -> {
+            practiceFormPage.mobileInput().setValue(phoneNumber);
+        });
+
+        step("Кнопка подтвердить", () -> {
+            practiceFormPage.stateDropdown().scrollIntoView("{block: 'center'}").click();
+            practiceFormPage.submitButton().click();
+        });
+
+        step("Проверка ошибки, форма не заполнена", () -> {
+            practiceFormPage.submittingTheForm().shouldNot(exist);
+        });
+    }
+
+    @ParameterizedTest(name = "Невалидный e-mail: {0}")
+    @ValueSource(strings = {
+            "testmail.com",  // Без @
+            "test@",  // Без домена
+
+    })
+
+    @DisplayName("Заполнение формы невалидными данными")
+    public void testInvalidMobileEmail(String email) {
+
+        step("Открытие страницы Practice Form", () -> {
+            open(PracticeFormPage.url());
+        });
+
+        step("Заполняем обязательные поля валидными значениями", () -> {
+            practiceFormPage.firstNameInput().setValue("Jon");
+            practiceFormPage.lastNameInput().setValue("Smith");
+            practiceFormPage.genderRadioMale().click();
+        });
+
+        step("Ввод невалидного номера телефона", () -> {
+            practiceFormPage.emailInput().setValue(email);
+        });
+
+        step("Кнопка подтвердить", () -> {
+            practiceFormPage.stateDropdown().scrollIntoView("{block: 'center'}").click();
+            practiceFormPage.submitButton().click();
+        });
+
+        step("Проверка ошибки, форма не заполнена", () -> {
+            practiceFormPage.submittingTheForm().shouldNot(exist);
+        });
     }
 }
