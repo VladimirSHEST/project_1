@@ -2,10 +2,15 @@ package task1.pages;
 
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormPage extends BasePage {
+    public static final String NAME = "Jon";
+    public static final String LAST_NAME = "Smith";
+    public static final String USER_EMAIL = "test@mail.com";
+    public static final String USER_NUMBER = "1234567890";
 
     public static String url() {
         return BasePage.url() + "automation-practice-form";
@@ -15,82 +20,100 @@ public class PracticeFormPage extends BasePage {
         return $x("//input[@id='firstName']").as("Поле ввода имени");
     }
 
-    public SelenideElement lastNameInput(){
+    public SelenideElement lastNameInput() {
         return $x("//input[@id='lastName']").as("Поле ввода фамилии");
     }
 
-    public SelenideElement emailInput(){
+    public SelenideElement emailInput() {
         return $x("//input[@id='userEmail']").as("Поле ввода е-мейла");
     }
 
-    public SelenideElement genderRadioMale(){
+    public SelenideElement genderRadioMale() {
         return $("#genterWrapper").$(byText("Male")).as("кнопка выбора пола");//
     }
 
-    public SelenideElement mobileInput(){
+    public SelenideElement mobileInput() {
         return $x("//input[@id='userNumber']").as("Поле ввода номера телефона");
     }
 
     // выбор дня рождения
-    public SelenideElement dateOfBirthInput(){
+    public SelenideElement dateOfBirthInput() {
         return $x("//input[@id='dateOfBirthInput']").as("Поле ввода дата рождения");
     }
-    public SelenideElement dateYear(){
+
+    public SelenideElement dateYear() {
         return $x("//select[@class='react-datepicker__year-select']").as("Дроп списка для выбора года");
     }
-    public SelenideElement dateYearValue(){
+
+    public SelenideElement dateYearValue() {
         return $x("//option[@value='1989']").as("Выбор года рождения");
     }
-    public SelenideElement dateMonth(){
+
+    public SelenideElement dateMonth() {
         return $x("//select[@class='react-datepicker__month-select']").as("Дроп списка для выбора месяца");
     }
-    public SelenideElement dateMonthValue(){
+
+    public SelenideElement dateMonthValue() {
         return $x("//option[@value='5']").as("Выбор месяца рождения");
     }
-    public SelenideElement dateDay(){
+
+    public SelenideElement dateDay() {
         return $x("//div[@class='react-datepicker__day react-datepicker__day--019']")
                 .as("Выбор числа рождения");
     }
 
-   // поле предметы Subjects
-    public SelenideElement subjectsInput(){
+    // поле предметы Subjects
+    public SelenideElement subjectsInput() {
         return $x("//input[@id='subjectsInput']").as("Поле для ввода предмета");
     }
 
     // поле Hobbies
-    public SelenideElement hobbiesCheckbox(){
+    public SelenideElement hobbiesCheckbox() {
         return $("#hobbiesWrapper").$(byText("Sports")).as("Выбор хобби");
     }
+
     // поле для загрузки фото
-    public SelenideElement uploadPicture(){
+    public SelenideElement uploadPicture() {
         return $x("//input[@id='uploadPicture']").as("Кнопка для загрузки фото");
     }
 
     // поле выбора адреса
-    public SelenideElement addressInput(){
+    public SelenideElement addressInput() {
         return $x("//textarea[@id='currentAddress']").as("Поле ввода адреса");
     }
 
     // штат и город
-    public SelenideElement stateDropdown(){
+    public SelenideElement stateDropdown() {
         return $("#state").as("Кнопка для выпадения штата");
     }
-    public SelenideElement stateDropdown2(){
+
+    public SelenideElement stateDropdown2() {
         return $("#stateCity-wrapper").$(byText("NCR")).as("Выбор штата");
     }
-    public SelenideElement cityDropdown(){
+
+    public SelenideElement cityDropdown() {
         return $x("//div[@id='city']").as("Кнопка для выпадения города");
     }
-    public SelenideElement cityDropdown2(){
-        return $("#stateCity-wrapper").$(byText("Delhi")).as("Выбор города");
+
+    public SelenideElement cityDropdown2() {
+        return $x("//div[@id='stateCity-wrapper']//*[text()='Delhi']").as("Выбор города");
     }
 
-    // кнопка подтвердить
-    public SelenideElement submitButton(){
+    public SelenideElement submitButton() {
         return $x("//button[@id='submit']").as("Кнопка подтвердить");
     }
-    // заполненная форма
-    public SelenideElement submittingTheForm(){
-        return $x("//div[@class='modal-header']").as("Заполненная форма");
+
+    public SelenideElement isVisibleForm() {
+        return $(".modal-header").shouldHave(text("Thanks for submitting the form"))
+                .as("Заполненная форма видна");
+    }
+
+    public SelenideElement isVisibleText() {
+        return $(".modal-body").shouldHave(text(NAME), text(LAST_NAME), text(USER_EMAIL),
+                text(USER_NUMBER)).as("проверка заполненной формы");
+    }
+
+    public SelenideElement isNotVisibleForm() {
+        return $(".modal-header").as("Заполненная форма не существует");
     }
 }

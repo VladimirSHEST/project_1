@@ -99,7 +99,6 @@
                         <include>**/*Tests.java</include>
                     </includes>
                     <argLine>
-                        -Xmx1024m
                         -Dfile.encoding=UTF-8
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
