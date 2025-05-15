@@ -27,7 +27,4 @@ public class BaseTest {
         Configuration.pageLoadTimeout = 45000;
 
     }
-
-
-
 }
