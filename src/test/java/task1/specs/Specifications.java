@@ -47,4 +47,11 @@ public abstract class Specifications {
                 .expectStatusCode(204)
                 .build();
     }
+
+    // Спецификация для ответа 401
+    protected static ResponseSpecification getResponseSpec401() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(401)
+                .build();
+    }
 }
