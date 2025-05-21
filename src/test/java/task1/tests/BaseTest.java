@@ -1,8 +1,6 @@
 package task1.tests;
 
 import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
@@ -19,7 +17,6 @@ public class BaseTest {
         InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("config.properties");
         properties.load(input);
 
-        Configuration.baseUrl = properties.getProperty("base.url");
         Configuration.browser = properties.getProperty("browser");
         Configuration.browserSize = properties.getProperty("browser.size");
         Configuration.holdBrowserOpen = Boolean.parseBoolean(properties.getProperty("holdBrowserOpen")); // браузер не закроется

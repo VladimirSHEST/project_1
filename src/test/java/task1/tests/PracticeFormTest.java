@@ -10,10 +10,14 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 import static task1.pages.PracticeFormPage.*;
-import static task1.pages.PracticeFormPage.USER_EMAIL;
+
 import static task1.repository.PageRepository.practiceFormPage;
 
 public class PracticeFormTest extends BaseTest {
+    public static final String NAME = "Jon";
+    public static final String LAST_NAME = "Smith";
+    public static final String USER_EMAIL = "test@mail.com";
+    public static final String USER_NUMBER = "1234567890";
 
     @Test
     @DisplayName("Заполняем форму валидными данными")
@@ -94,7 +98,6 @@ public class PracticeFormTest extends BaseTest {
             "testmail.com",  // Без @
             "test@",  // Без домена
     })
-
     @DisplayName("Заполняем форму невалидным email")
     public void testInvalidMobileEmail(String email) {
 

@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 import static io.qameta.allure.Allure.step;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ReqresInTest extends Specifications {
 
@@ -58,10 +60,10 @@ public class ReqresInTest extends Specifications {
                 .spec(getSuccessResponseSpec201())
                 .extract().as(UserResponse.class);
         // Проверки тела ответа
-        assertEquals(request.getName(), user.getName(), "name не совпадает");
-        assertEquals(request.getJob(), user.getJob(), "job не совпадает");
-        assertNotNull(user.getId(), "id должен присутствовать");
-        assertNotNull(user.getCreatedAt(), "createdAt должен присутствовать");
+        assertThat(request.getName()).as("Проверка имени").isEqualTo(user.getName());
+        assertThat(user.getJob()).as("Проверка должности").isEqualTo(request.getJob());
+        assertThat(user.getId()).as("Проверка наличия ID").isNotNull();
+        assertThat(user.getCreatedAt()).as("Проверка наличия даты создания").isNotNull();
     }
 
     @Test
@@ -80,10 +82,10 @@ public class ReqresInTest extends Specifications {
                     .extract().as(UserResponse.class);
 
             // Проверки тела ответа
-            assertEquals(request.getName(), user.getName(), "name не совпадает");
-            assertEquals(request.getJob(), user.getJob(), "job не совпадает");
-            assertNotNull(user.getId(), "id должен присутствовать");
-            assertNotNull(user.getCreatedAt(), "createdAt должен присутствовать");
+            assertThat(user.getName()).as("Проверка имени").isEqualTo(request.getName());
+            assertThat(user.getJob()).as("Проверка должности").isEqualTo(request.getJob());
+            assertThat(user.getId()).as("Проверка наличия ID").isNotNull();
+            assertThat(user.getCreatedAt()).as("Проверка наличия даты создания").isNotNull();
         });
     }
 
@@ -103,9 +105,9 @@ public class ReqresInTest extends Specifications {
                     .extract().as(UserResponse.class);
 
             // Проверки тела ответа
-            assertEquals(request.getName(), user.getName(), "name не совпадает");
-            assertEquals(request.getJob(), user.getJob(), "job не совпадает");
-            assertNotNull(user.getUpdatedAt(), "updatedAt должен присутствовать");
+            assertThat(user.getName()).as("name не совпадает").isEqualTo(request.getName());
+            assertThat(user.getJob()).as("job не совпадает").isEqualTo(request.getJob());
+            assertThat(user.getUpdatedAt()).as("updatedAt должен присутствовать").isNotNull();
 
             // Получаем текущее время (UTC) и обрезаем до минут
             Instant expectedTime = Instant.now().truncatedTo(ChronoUnit.MINUTES);
@@ -114,8 +116,9 @@ public class ReqresInTest extends Specifications {
             Instant actualTime = Instant.parse(user.getUpdatedAt()).truncatedTo(ChronoUnit.MINUTES);
 
             // Сравниваем
-            assertEquals(expectedTime, actualTime,
-                    String.format("Ожидалось время: %s, получено: %s", expectedTime, actualTime));
+            assertThat(actualTime).as("Ожидалось время: %s, получено: %s",
+                    expectedTime, actualTime).isEqualTo(expectedTime);
+
         });
     }
 
@@ -135,9 +138,9 @@ public class ReqresInTest extends Specifications {
                     .extract().as(UserResponse.class);
 
             // Проверки тела ответа
-            assertEquals(request.getName(), user.getName(), "name не совпадает");
-            assertEquals(request.getJob(), user.getJob(), "job не совпадает");
-            assertNotNull(user.getUpdatedAt(), "updatedAt должен присутствовать");
+            assertThat(user.getName()).as("name не совпадает").isEqualTo(request.getName());
+            assertThat(user.getJob()).as("job не совпадает").isEqualTo(request.getJob());
+            assertThat(user.getUpdatedAt()).as("updatedAt должен присутствовать").isNotNull();
 
             // Получаем текущее время (UTC) и обрезаем до минут
             Instant expectedTime = Instant.now().truncatedTo(ChronoUnit.MINUTES);
@@ -164,7 +167,7 @@ public class ReqresInTest extends Specifications {
                     .extract().response();
 
             // Проверка, что тело ответа пустое
-            assertEquals("", response.getBody().asString(), "Тело ответа должно быть пустым");
+            assertThat(response.getBody().asString()).as("Тело ответа должно быть пустым").isEmpty();
         });
     }
 

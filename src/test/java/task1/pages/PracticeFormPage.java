@@ -5,12 +5,9 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static task1.tests.PracticeFormTest.*;
 
 public class PracticeFormPage extends BasePage {
-    public static final String NAME = "Jon";
-    public static final String LAST_NAME = "Smith";
-    public static final String USER_EMAIL = "test@mail.com";
-    public static final String USER_NUMBER = "1234567890";
 
     public static String url() {
         return BasePage.url() + "automation-practice-form";
